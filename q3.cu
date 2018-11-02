@@ -49,21 +49,25 @@ int main() {
     find_odd<<<numBlocks, blockSize>>>(count, A, B);
     
     /* Remove 0s */
-    int zeroCount = 0;
-    for (int i = 0; i < count; i++) {
-        if (B[i] != 0) { D[i - zeroCount] = B[i]; }
-        else { zeroCount++; }
-    }
+//    printf("Removing Zeros!\n");
+//    int zeroCount = 0;
+//    for (int i = 0; i < count; i++) {
+//        if (B[i] != 0) { D[i - zeroCount] = B[i]; }
+//        else { zeroCount++; }
+//    }
 
     /* Print Array */
-    for (int i = 0; D[i] != 0; i++) { printf("%d, ", D[i]); }
+    printf("Printing Array!\n");
+    for (int i = 0; B[i] != 0; i++) { printf("%d, ", B[i]); }
 
     /* Write Out */
+    printf("Writing File!\n");
     FILE *f = fopen("q3.txt", "w");
-    for (int i = 0; D[i] != 0; i++) { fprintf(f, "%d, ", D[i]); }
+    for (int i = 0; B[i] != 0; i++) { fprintf(f, "%d, ", B[i]); }
     fclose(f);
     
     /* Free Memory */
+    printf("Freeing Memory!\n");
     cudaFree(A);
     cudaFree(B);
     
