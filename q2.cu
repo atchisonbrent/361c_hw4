@@ -79,10 +79,10 @@ int main() {
     } printf("\n");
 
     /* Copy B to C */
-    for (int i = 0; i < d, i++) { C[i] = B[i]; }
+    for (int i = 0; i < d; i++) { C[i] = B[i]; }
     
     /* Part C */
-    part_a<<<1, 1>>>(B, C);
+    part_c<<<1, 1>>>(B, C);
     
     /* Wait for GPU */
     cudaDeviceSynchronize();
