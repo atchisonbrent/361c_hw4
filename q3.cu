@@ -50,20 +50,27 @@ int main() {
     
     /* Wait for GPU */
     cudaDeviceSynchronize();
+    
+    /* Print B */
+    for (int i = 0; i < count; i++) {
+        printf("%d, ", B[i]);
+    }
+    printf("\n");
 
     /* Remove 0s */
     printf("Removing Zeros!\n");
     int zeroCount = 0;
     for (int i = 0; i < count; i++) {
-        if (B[i] == 0) { zeroCount++; }
-        else { D[i - zeroCount] = B[i]; }
+        if (B[i] != 0) { D[i - zeroCount] = B[i]; }
+        else { zeroCount++; }
     }
 
-    /* Print Array */
+    /* Print D */
     printf("Printing Array!\n");
     for (int i = 0; D[i] != 0; i++) { printf("%d, ", D[i]); }
+    printf("\n");
 
-    /* Write Out */
+    /* Write D */
     printf("Writing File!\n");
     FILE *f = fopen("q3.txt", "w");
     for (int i = 0; D[i] != 0; i++) { fprintf(f, "%d, ", D[i]); }
