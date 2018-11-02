@@ -93,19 +93,17 @@ int main() {
     } fclose(f);
     
     /* Part B */
-    int blockSize = 256;
-    int numBlocks = (count + blockSize - 1) / blockSize;
     part_b<<<numBlocks, blockSize>>>(count, A, B);
     
     /* Wait for GPU */
     cudaDeviceSynchronize();
     
     /* Part B to File */
-    FILE *f = fopen("q2b.txt", "w");
+    FILE *f2 = fopen("q2b.txt", "w");
     for (int i = 0; i < d; i++) {
-        fprintf(f, "%d", B[i]);
-        if (i + 1 != d) { fprintf(f, ", "); }
-    } fclose(f);
+        fprintf(f2, "%d", B[i]);
+        if (i + 1 != d) { fprintf(f2, ", "); }
+    } fclose(f2);
     
     /* Print B */
     printf("B: ");
