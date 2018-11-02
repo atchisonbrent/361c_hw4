@@ -26,6 +26,11 @@ int main() {
     int *D = new int[M];
     int i, count = 0;
     
+    /* Copy to GPU Memory */
+    printf("Copying to GPU Memory!\n");
+    cudaMallocManaged(&A, M * sizeof(int));
+    cudaMallocManaged(&B, M * sizeof(int));
+    
     /* Read numbers as integers one by one */
     printf("Scanning File!\n");
     while (fscanf(fp, "%d", &i) != EOF) {
@@ -36,11 +41,6 @@ int main() {
     /* Close File */
     printf("Closing File!\n");
     fclose(fp);
-    
-    /* Copy to GPU Memory */
-    printf("Copying to GPU Memory!\n");
-    cudaMallocManaged(&A, M * sizeof(int));
-    cudaMallocManaged(&B, M * sizeof(int));
     
     /* Kernel */
     printf("Accessing GPU!\n");
