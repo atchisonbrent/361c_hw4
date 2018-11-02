@@ -62,14 +62,14 @@ int main() {
 
     /* Write Out */
     printf("Writing File!\n");
-//    FILE *f = fopen("q3.txt", "w");
-//    for (int i = 0; D[i] != 0; i++) { fprintf(f, "%d, ", D[i]); }
-//    fclose(f);
+    FILE *f = fopen("q3.txt", "w");
+    for (int i = 0; D[i] != 0; i++) { fprintf(f, "%d, ", D[i]); }
+    fclose(f);
     
     /* Free Memory */
-    printf("Freeing Memory!\n");
-    cudaFree(A);
-    cudaFree(B);
+//    printf("Freeing Memory!\n");
+//    cudaFree(A);
+//    cudaFree(B);
     
     return 0;
 }
