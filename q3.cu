@@ -6,8 +6,8 @@ __global__ void last_digit(int n, int *A, int *D) {
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     int stride = blockDim.x * gridDim.x;
     for (int i = index; i < n; i += stride) {
-        if (A[i] % 2 == 1) { D[i] = A[i]; }
-        else { D[i] = 0; }
+        if (A[i] % 2 == 1) { printf("Value is odd!\n"); D[i] = A[i]; }
+        else { printf("Value is even!\n"); D[i] = 0; }
     }
 }
 
@@ -44,22 +44,24 @@ int main() {
     fclose(fp);
     
     /* Kernel */
+    printf("Accessing GPU!\n");
     int blockSize = 256;
     int numBlocks = (count + blockSize - 1) / blockSize;
     last_digit<<<numBlocks, blockSize>>>(count, A, D);
     
     /* Remove 0s */
+    printf("Removing Zeros!\n");
     const size_t N = sizeof(A) / sizeof(*A);
     int *done = remove_copy(A, N, D, 0);
     
     /* Print Array */
+    int length = sizeof(done) / sizeof(*done);
     for (int i = 0; i < length; i++) {
-        printf(f, "%d", done[i]);
-        if (i + 1 != length) { printf(f, ", "); }
+        printf("%d", done[i]);
+        if (i + 1 != length) { printf(", "); }
     }
     
     /* Write Out */
-    int length = sizeof(done) / sizeof(*done);
     FILE *f = fopen("q3.txt", "w");
     for (int i = 0; i < length; i++) {
         fprintf(f, "%d", done[i]);
