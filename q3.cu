@@ -6,8 +6,8 @@ __global__ void last_digit(int n, int *A, int *D) {
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     int stride = blockDim.x * gridDim.x;
     for (int i = index; i < n; i += stride) {
-        if (A[i] % 2 == 1) { printf("Value is odd!\n"); D[i] = A[i]; }
-        else { printf("Value is even!\n"); D[i] = 0; }
+        if (A[i] % 2 == 1) { D[i] = A[i]; }
+        else { D[i] = 0; }
     }
 }
 
@@ -21,11 +21,10 @@ int* remove_copy(const int *in, size_t n, int *out, int value) {
 int main() {
     
     /* Open File */
-    printf("Opening File!\n");
     FILE *fp;
     fp = fopen("inp.txt", "r");
     
-    printf("Init Arrays!\n");
+    printf("Init Arrays and Such!\n");
     char buff[256];
     const int M = 1<<20;
     int *A = new int[M];
@@ -56,8 +55,10 @@ int main() {
     
     /* Remove 0s */
     printf("Removing Zeros!\n");
-    const size_t N = sizeof(A) / sizeof(*A);
-    int *done = remove_copy(A, N, D, 0);
+    size = sizeof(D) / sizeof(*D);
+    int B[size];
+    const size_t N = size;
+    int *done = remove_copy(D, size, B, 0);
     
     /* Print Array */
     int length = sizeof(done) / sizeof(*done);
