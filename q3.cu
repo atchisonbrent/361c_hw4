@@ -57,14 +57,15 @@ int main() {
     }
 
     /* Print Array */
-//    printf("Printing Array!\n");
-//    for (int i = 0; D[i] != 0; i++) { printf("%d, ", D[i]); }
+    printf("Printing Array!\n");
+    int length = sizeof(D) / sizeof(int);
+    for (int i = 0; i < length; i++) { printf("%d, ", D[i]); }
 
     /* Write Out */
-//    printf("Writing File!\n");
-//    FILE *f = fopen("q3.txt", "w");
-//    for (int i = 0; D[i] != 0; i++) { fprintf(f, "%d, ", D[i]); }
-//    fclose(f);
+    printf("Writing File!\n");
+    FILE *f = fopen("q3.txt", "w");
+    for (int i = 0; i < length; i++) { fprintf(f, "%d, ", D[i]); }
+    fclose(f);
 
     /* Free Memory */
     printf("Freeing Memory!\n");
