@@ -6,7 +6,7 @@ __global__ void find_odd(int n, int *A, int *B) {
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     int stride = blockDim.x * gridDim.x;
     for (int i = index; i < n; i += stride) {
-        if (A[i] % 2 == 1) { B[i] = A[i]; }
+        if (A[i] % 2 > 0) { B[i] = A[i]; }
         else { B[i] = 0; }
     }
 }
