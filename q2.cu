@@ -37,7 +37,7 @@ __global__ void part_b(int n, int *A, int *B){
         else if (900 <= A[i] && A[i] <= 999) { atomicAdd(&s[9], 1); }
     }
     __syncthreads();
-    for (int i = 0; i < 10; i++) { atomicAdd(&B[i], 1); }
+    for (int i = 0; i < 10; i++) { atomicAdd(&B[i], s[i]); }
 }
 
 /* Part C */
@@ -79,6 +79,8 @@ int main() {
     /* Close FilePointer */
     fclose(fp);
     
+    /**************************************************/
+    
     /* Part A */
     int blockSize = 256;
     int numBlocks = (count + blockSize - 1) / blockSize;
@@ -104,6 +106,8 @@ int main() {
     /* Copy B to C */
     for (int i = 0; i < d; i++) { C[i] = B[i]; }
     
+    /**************************************************/
+    
     /* Part B */
     part_b<<<numBlocks, blockSize>>>(count, A, B2);
     
@@ -123,6 +127,8 @@ int main() {
         printf("%d", B2[i]);
         if (i + 1 != d ) printf(", ");
     } printf("\n");
+    
+    /**************************************************/
     
     /* Part C */
     part_c<<<1, 1>>>(B, C);
@@ -144,9 +150,13 @@ int main() {
         if (i + 1 != d ) printf(", ");
     } printf("\n");
     
+    /**************************************************/
+    
     /* Free Memory */
     cudaFree(A);
     cudaFree(B);
+    cudaFree(B2);
+    cudaFree(C);
     
     return 0;
 }
