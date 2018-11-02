@@ -24,9 +24,6 @@ int main() {
     int *A = (int*) malloc(M * sizeof(int));
     int *B = (int*) malloc(M * sizeof(int));
     int *D = (int*) malloc(M * sizeof(int));
-//    int *A = new int[M];
-//    int *B = new int[M];
-//    int *D = new int[M];
     int i, count = 0;
     
     /* Read numbers as integers one by one */
@@ -60,8 +57,8 @@ int main() {
     }
 
     /* Print Array */
-    printf("Printing Array!\n");
-    for (int i = 0; D[i] != 0; i++) { printf("%d, ", D[i]); }
+//    printf("Printing Array!\n");
+//    for (int i = 0; D[i] != 0; i++) { printf("%d, ", D[i]); }
 
     /* Write Out */
     printf("Writing File!\n");
