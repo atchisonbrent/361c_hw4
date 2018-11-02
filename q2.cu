@@ -37,7 +37,9 @@ __global__ void part_b(int n, int *A, int *B){
         else if (900 <= A[i] && A[i] <= 999) { atomicAdd(&s[9], 1); }
     }
     __syncthreads();
-    for (int i = 0; i < 10; i++) { atomicAdd(&B[i], s[i]); }
+    if (threadIdx.x == 0)
+        for (int i = 0; i < 10; i++)
+            atomicAdd(&B[i], s[i]);
 }
 
 /* Part C */
