@@ -43,30 +43,30 @@ int main() {
     cudaMallocManaged(&B, M * sizeof(int));
     
     /* Kernel */
-    printf("Accessing GPU!\n");
-    int blockSize = 256;
-    int numBlocks = (count + blockSize - 1) / blockSize;
-    find_odd<<<numBlocks, blockSize>>>(count, A, B);
-    
-    /* Remove 0s */
-    printf("Removing Zeros!\n");
-    int zeroCount = 0;
-    for (int i = 0; i < count; i++) {
-        if (B[i] == 0) { zeroCount++; }
-        else { D[i - zeroCount] = B[i]; }
-    }
-
-    /* Print Array */
-    printf("Printing Array!\n");
-    for (int i = 0; D[i] != 0; i++) { printf("%d, ", D[i]); }
-
-    /* Write Out */
-    printf("Writing File!\n");
-    FILE *f = fopen("q3.txt", "w");
-    for (int i = 0; D[i] != 0; i++) { fprintf(f, "%d, ", D[i]); }
-    fclose(f);
-    
-    /* Free Memory */
+//    printf("Accessing GPU!\n");
+//    int blockSize = 256;
+//    int numBlocks = (count + blockSize - 1) / blockSize;
+//    find_odd<<<numBlocks, blockSize>>>(count, A, B);
+//    
+//    /* Remove 0s */
+//    printf("Removing Zeros!\n");
+//    int zeroCount = 0;
+//    for (int i = 0; i < count; i++) {
+//        if (B[i] == 0) { zeroCount++; }
+//        else { D[i - zeroCount] = B[i]; }
+//    }
+//
+//    /* Print Array */
+//    printf("Printing Array!\n");
+//    for (int i = 0; D[i] != 0; i++) { printf("%d, ", D[i]); }
+//
+//    /* Write Out */
+//    printf("Writing File!\n");
+//    FILE *f = fopen("q3.txt", "w");
+//    for (int i = 0; D[i] != 0; i++) { fprintf(f, "%d, ", D[i]); }
+//    fclose(f);
+//    
+//    /* Free Memory */
 //    printf("Freeing Memory!\n");
 //    cudaFree(A);
 //    cudaFree(B);
