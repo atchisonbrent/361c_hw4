@@ -24,6 +24,7 @@ int main() {
     int *A = new int[M];
     int *B = new int[M];
     int *D = new int[M];
+    for (int i = 0; i < M; i++) { D[i] = 0; }
     int i, count = 0;
     
     /* Read numbers as integers one by one */
@@ -58,13 +59,12 @@ int main() {
 
     /* Print Array */
     printf("Printing Array!\n");
-    int length = sizeof(D) / sizeof(int);
-    for (int i = 0; i < length; i++) { printf("%d, ", D[i]); }
+    for (int i = 0; D[i] != 0; i++) { printf("%d, ", D[i]); }
 
     /* Write Out */
     printf("Writing File!\n");
     FILE *f = fopen("q3.txt", "w");
-    for (int i = 0; i < length; i++) { fprintf(f, "%d, ", D[i]); }
+    for (int i = 0; D[i] != 0; i++) { fprintf(f, "%d, ", D[i]); }
     fclose(f);
 
     /* Free Memory */
