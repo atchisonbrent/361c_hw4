@@ -60,12 +60,14 @@ int main() {
     const int d = 10;
     int *A = new int[M];
     int *B = new int[d];
+    int *B2 = new int[d];
     int *C = new int[d];
     int i, count = 0;
     
     /* Copy to GPU Memory */
     cudaMallocManaged(&A, M * sizeof(int));
     cudaMallocManaged(&B, d * sizeof(int));
+    cudaMallocManaged(&B2, d * sizeof(int));
     cudaMallocManaged(&C, d * sizeof(int));
     
     /* Read numbers as integers one by one */
@@ -92,19 +94,6 @@ int main() {
         if (i + 1 != d) { fprintf(f, ", "); }
     } fclose(f);
     
-    /* Part B */
-    part_b<<<numBlocks, blockSize>>>(count, A, B);
-    
-    /* Wait for GPU */
-    cudaDeviceSynchronize();
-    
-    /* Part B to File */
-    FILE *f2 = fopen("q2b.txt", "w");
-    for (int i = 0; i < d; i++) {
-        fprintf(f2, "%d", B[i]);
-        if (i + 1 != d) { fprintf(f2, ", "); }
-    } fclose(f2);
-    
     /* Print B */
     printf("B: ");
     for (int i = 0; i < d; i++) {
@@ -114,6 +103,26 @@ int main() {
     
     /* Copy B to C */
     for (int i = 0; i < d; i++) { C[i] = B[i]; }
+    
+    /* Part B */
+    part_b<<<numBlocks, blockSize>>>(count, A, B2);
+    
+    /* Wait for GPU */
+    cudaDeviceSynchronize();
+    
+    /* Part B to File */
+    FILE *f2 = fopen("q2b.txt", "w");
+    for (int i = 0; i < d; i++) {
+        fprintf(f2, "%d", B2[i]);
+        if (i + 1 != d) { fprintf(f2, ", "); }
+    } fclose(f2);
+    
+    /* Print B2 */
+    printf("B2: ");
+    for (int i = 0; i < d; i++) {
+        printf("%d", B2[i]);
+        if (i + 1 != d ) printf(", ");
+    } printf("\n");
     
     /* Part C */
     part_c<<<1, 1>>>(B, C);
