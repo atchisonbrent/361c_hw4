@@ -21,10 +21,7 @@ int main() {
     printf("Init Arrays and Such!\n");
     char buff[256];
     const int M = 1<<20;
-    int *A = new int[M];
-    int *B = new int[M];
-    int *D = new int[M];
-    for (int i = 0; i < M; i++) { D[i] = 0; }
+    static int A[M], B[M], D[M];
     int i, count = 0;
     
     /* Read numbers as integers one by one */
