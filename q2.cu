@@ -2,7 +2,7 @@
 #include <limits.h>
 
 /* Part A */
-__global__ void entries_in_range(int n, int *A, int *B){
+__global__ void part_a(int n, int *A, int *B){
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     int stride = blockDim.x * gridDim.x;
     for (int i = index; i < n; i += stride) {
@@ -16,6 +16,15 @@ __global__ void entries_in_range(int n, int *A, int *B){
         else if (700 <= A[i] && A[i] <= 799) { atomicAdd(&B[7], 1); }
         else if (800 <= A[i] && A[i] <= 899) { atomicAdd(&B[8], 1); }
         else if (900 <= A[i] && A[i] <= 999) { atomicAdd(&B[9], 1); }
+    }
+}
+
+/* Part C */
+__global__ void part_c(int *B, int *C){
+    for (int i = 0; i < 10; i += 1) {
+        int sum = 0;
+        for (int j = 0; j < i; j++) { sum += B[j]; }
+        C[i] += sum;
     }
 }
 
@@ -36,6 +45,7 @@ int main() {
     /* Copy to GPU Memory */
     cudaMallocManaged(&A, M * sizeof(int));
     cudaMallocManaged(&B, d * sizeof(int));
+    cudaMallocManaged(&C, d * sizeof(int));
     
     /* Read numbers as integers one by one */
     while (fscanf(fp, "%d", &i) != EOF) {
@@ -46,20 +56,50 @@ int main() {
     /* Close FilePointer */
     fclose(fp);
     
+    /* Part A */
     int blockSize = 256;
     int numBlocks = (count + blockSize - 1) / blockSize;
-    entries_in_range<<<numBlocks, blockSize>>>(count, A, B);
+    part_a<<<numBlocks, blockSize>>>(count, A, B);
     
     /* Wait for GPU */
     cudaDeviceSynchronize();
     
+    /* Part A to File */
+    FILE *f = fopen("q2a.txt", "w");
+    for (int i = 0; i < d; i++) {
+        fprintf(f, "%d", B[i]);
+        if (i + 1 != d) { fprintf(f, ", "); }
+    } fclose(f);
+    
     /* Print B */
-    printf("Printing Array!\n");
+    printf("B: ");
     for (int i = 0; i < d; i++) {
         printf("%d", B[i]);
         if (i + 1 != d ) printf(", ");
-    }
-    printf("\n");
+    } printf("\n");
+
+    /* Copy B to C */
+    for (int i = 0; i < d, i++) { C[i] = B[i]; }
+    
+    /* Part C */
+    part_a<<<1, 1>>>(B, C);
+    
+    /* Wait for GPU */
+    cudaDeviceSynchronize();
+    
+    /* Part C to File */
+    FILE *f3 = fopen("q2c.txt", "w");
+    for (int i = 0; i < d; i++) {
+        fprintf(f3, "%d", C[i]);
+        if (i + 1 != d) { fprintf(f3, ", "); }
+    } fclose(f3);
+    
+    /* Print C */
+    printf("C: ");
+    for (int i = 0; i < d; i++) {
+        printf("%d", C[i]);
+        if (i + 1 != d ) printf(", ");
+    } printf("\n");
     
     /* Free Memory */
     cudaFree(A);
