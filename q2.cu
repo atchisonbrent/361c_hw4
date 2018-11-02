@@ -130,12 +130,12 @@ int main() {
         if (i + 1 != d) { fprintf(f3, ", "); }
     } fclose(f3);
     
-//    /* Print C */
-//    printf("C: ");
-//    for (int i = 0; i < d; i++) {
-//        printf("%d", C[i]);
-//        if (i + 1 != d ) printf(", ");
-//    } printf("\n");
+    /* Print C */
+    printf("C: ");
+    for (int i = 0; i < d; i++) {
+        printf("%d", C[i]);
+        if (i + 1 != d ) printf(", ");
+    } printf("\n");
     
     /* Free Memory */
     cudaFree(A);
