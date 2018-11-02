@@ -50,12 +50,6 @@ int main() {
     
     /* Wait for GPU */
     cudaDeviceSynchronize();
-    
-    /* Print B */
-    for (int i = 0; i < count; i++) {
-        printf("%d, ", B[i]);
-    }
-    printf("\n");
 
     /* Remove 0s */
     printf("Removing Zeros!\n");
