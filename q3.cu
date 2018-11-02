@@ -21,9 +21,11 @@ int* remove_copy(const int *in, size_t n, int *out, int value) {
 int main() {
     
     /* Open File */
+    printf("Opening File!\n");
     FILE *fp;
     fp = fopen("inp.txt", "r");
     
+    printf("Init Arrays!\n");
     char buff[256];
     const int M = 1<<20;
     int *A = new int[M];
@@ -31,16 +33,19 @@ int main() {
     int i, count = 0;
     
     /* Copy to GPU Memory */
+    printf("Copying to GPU Memory!\n");
     cudaMallocManaged(&A, M * sizeof(int));
     cudaMallocManaged(&D, M * sizeof(int));
     
     /* Read numbers as integers one by one */
+    printf("Scanning File!\n");
     while (fscanf(fp, "%d", &i) != EOF) {
         A[count++] = i;             // Add number to array
         fscanf(fp, "%s", buff);     // Read until whitespace
     }
     
-    /* Close FilePointer */
+    /* Close File */
+    printf("Closing File!\n");
     fclose(fp);
     
     /* Kernel */
