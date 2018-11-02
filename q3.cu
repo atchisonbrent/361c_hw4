@@ -21,6 +21,7 @@ int* remove_copy(const int *in, size_t n, int *out, int value) {
 int main() {
     
     /* Open File */
+    printf("Opening File!\n");
     FILE *fp;
     fp = fopen("inp.txt", "r");
     
@@ -55,10 +56,9 @@ int main() {
     
     /* Remove 0s */
     printf("Removing Zeros!\n");
-    size = sizeof(D) / sizeof(*D);
-    int B[size];
-    const size_t N = size;
-    int *done = remove_copy(D, size, B, 0);
+    int *B = new int[sizeof(D) / sizeof(*D)];
+    const size_t N = sizeof(D) / sizeof(*D);
+    int *done = remove_copy(D, N, B, 0);
     
     /* Print Array */
     int length = sizeof(done) / sizeof(*done);
