@@ -7,15 +7,15 @@ __global__ void entries_in_range(int n, int *A, int *B){
     int stride = blockDim.x * gridDim.x;
     for (int i = index; i < n; i += stride) {
         if (0 <= A[i] && A[i] <= 99) { atomicAdd(B, 1); }
-        if (100 <= A[i] && A[i] <= 199) { atomicAdd(&B[0], 1); }
-        if (200 <= A[i] && A[i] <= 299) { atomicAdd(&B[1], 1); }
-        if (300 <= A[i] && A[i] <= 399) { atomicAdd(&B[2], 1); }
-        if (400 <= A[i] && A[i] <= 499) { atomicAdd(&B[3], 1); }
-        if (500 <= A[i] && A[i] <= 599) { atomicAdd(&B[4], 1); }
-        if (600 <= A[i] && A[i] <= 699) { atomicAdd(&B[5], 1); }
-        if (700 <= A[i] && A[i] <= 799) { atomicAdd(&B[6], 1); }
-        if (800 <= A[i] && A[i] <= 899) { atomicAdd(&B[7], 1); }
-        if (900 <= A[i] && A[i] <= 999) { atomicAdd(&B[8], 1); }
+        else if (100 <= A[i] && A[i] <= 199) { atomicAdd(&B[1], 1); }
+        else if (200 <= A[i] && A[i] <= 299) { atomicAdd(&B[2], 1); }
+        else if (300 <= A[i] && A[i] <= 399) { atomicAdd(&B[3], 1); }
+        else if (400 <= A[i] && A[i] <= 499) { atomicAdd(&B[4], 1); }
+        else if (500 <= A[i] && A[i] <= 599) { atomicAdd(&B[5], 1); }
+        else if (600 <= A[i] && A[i] <= 699) { atomicAdd(&B[6], 1); }
+        else if (700 <= A[i] && A[i] <= 799) { atomicAdd(&B[7], 1); }
+        else if (800 <= A[i] && A[i] <= 899) { atomicAdd(&B[8], 1); }
+        else if (900 <= A[i] && A[i] <= 999) { atomicAdd(&B[9], 1); }
     }
 }
 
