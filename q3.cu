@@ -2,7 +2,7 @@
 #include <limits.h>
 
 /* GPU */
-__global__ void last_digit(int n, int *A, int *D) {
+__global__ void find_odd(int n, int *A, int *D) {
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     int stride = blockDim.x * gridDim.x;
     for (int i = index; i < n; i += stride) {
@@ -12,11 +12,11 @@ __global__ void last_digit(int n, int *A, int *D) {
 }
 
 /* Remove Values in Array */
-int* remove_copy(const int *in, size_t n, int *out, int value) {
-    for (size_t i = 0; i != n; i++)
-        if (in[i] != value) *out++ = in[i];
-    return out;
-}
+//int* remove_copy(const int *in, size_t n, int *out, int value) {
+//    for (size_t i = 0; i != n; i++)
+//        if (in[i] != value) *out++ = in[i];
+//    return out;
+//}
 
 int main() {
     
@@ -52,27 +52,27 @@ int main() {
     printf("Accessing GPU!\n");
     int blockSize = 256;
     int numBlocks = (count + blockSize - 1) / blockSize;
-    last_digit<<<numBlocks, blockSize>>>(count, A, D);
+    find_odd<<<numBlocks, blockSize>>>(count, A, D);
     
-    /* Remove 0s */
-    printf("Removing Zeros!\n");
-    int *B = new int[sizeof(D) / sizeof(*D)];
-    const size_t N = sizeof(D) / sizeof(*D);
-    int *done = remove_copy(D, N, B, 0);
-    
-    /* Print Array */
-    int length = sizeof(done) / sizeof(*done);
-    for (int i = 0; i < length; i++) {
-        printf("%d", done[i]);
-        if (i + 1 != length) { printf(", "); }
-    }
-    
-    /* Write Out */
-    FILE *f = fopen("q3.txt", "w");
-    for (int i = 0; i < length; i++) {
-        fprintf(f, "%d", done[i]);
-        if (i + 1 != length) { fprintf(f, ", "); }
-    } fclose(f);
+//    /* Remove 0s */
+//    printf("Removing Zeros!\n");
+//    int *B = new int[sizeof(D) / sizeof(*D)];
+//    const size_t N = sizeof(D) / sizeof(*D);
+//    int *done = remove_copy(D, N, B, 0);
+//
+//    /* Print Array */
+//    int length = sizeof(done) / sizeof(*done);
+//    for (int i = 0; i < length; i++) {
+//        printf("%d", done[i]);
+//        if (i + 1 != length) { printf(", "); }
+//    }
+//
+//    /* Write Out */
+//    FILE *f = fopen("q3.txt", "w");
+//    for (int i = 0; i < length; i++) {
+//        fprintf(f, "%d", done[i]);
+//        if (i + 1 != length) { fprintf(f, ", "); }
+//    } fclose(f);
     
     /* Free Memory */
     cudaFree(A);
