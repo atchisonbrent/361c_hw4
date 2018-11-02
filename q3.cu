@@ -67,13 +67,19 @@ int main() {
 
     /* Print D */
     printf("Printing Array!\n");
-    for (int i = 0; D[i] != 0; i++) { printf("%d, ", D[i]); }
+    for (int i = 0; D[i] != 0; i++) {
+        printf("%d", D[i]);
+        if (D[i + 1] != 0) printf(", ");
+    }
     printf("\n");
 
     /* Write D */
     printf("Writing File!\n");
     FILE *f = fopen("q3.txt", "w");
-    for (int i = 0; D[i] != 0; i++) { fprintf(f, "%d, ", D[i]); }
+    for (int i = 0; D[i] != 0; i++) {
+        fprintf(f, "%d", D[i]);
+        if (D[i + 1] != 0) fprintf(f, ", ");
+    }
     fclose(f);
 
     /* Free Memory */
