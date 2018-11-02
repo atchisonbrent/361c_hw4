@@ -2,21 +2,14 @@
 #include <limits.h>
 
 /* GPU */
-__global__ void find_odd(int n, int *A, int *D) {
+__global__ void find_odd(int n, int *A, int *B) {
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     int stride = blockDim.x * gridDim.x;
     for (int i = index; i < n; i += stride) {
-        if (A[i] % 2 == 1) { D[i] = A[i]; }
-        else { D[i] = 0; }
+        if (A[i] % 2 == 1) { B[i] = A[i]; }
+        else { B[i] = 0; }
     }
 }
-
-/* Remove Values in Array */
-//int* remove_copy(const int *in, size_t n, int *out, int value) {
-//    for (size_t i = 0; i != n; i++)
-//        if (in[i] != value) *out++ = in[i];
-//    return out;
-//}
 
 int main() {
     
@@ -29,6 +22,7 @@ int main() {
     char buff[256];
     const int M = 1<<20;
     int *A = new int[M];
+    int *B = new int[M];
     int *D = new int[M];
     int i, count = 0;
     
@@ -46,37 +40,32 @@ int main() {
     /* Copy to GPU Memory */
     printf("Copying to GPU Memory!\n");
     cudaMallocManaged(&A, M * sizeof(int));
-    cudaMallocManaged(&D, M * sizeof(int));
+    cudaMallocManaged(&B, M * sizeof(int));
     
     /* Kernel */
     printf("Accessing GPU!\n");
     int blockSize = 256;
     int numBlocks = (count + blockSize - 1) / blockSize;
-    find_odd<<<numBlocks, blockSize>>>(count, A, D);
+    find_odd<<<numBlocks, blockSize>>>(count, A, B);
     
-//    /* Remove 0s */
-//    printf("Removing Zeros!\n");
-//    int *B = new int[sizeof(D) / sizeof(*D)];
-//    const size_t N = sizeof(D) / sizeof(*D);
-//    int *done = remove_copy(D, N, B, 0);
-//
-//    /* Print Array */
-//    int length = sizeof(done) / sizeof(*done);
-//    for (int i = 0; i < length; i++) {
-//        printf("%d", done[i]);
-//        if (i + 1 != length) { printf(", "); }
-//    }
-//
-//    /* Write Out */
-//    FILE *f = fopen("q3.txt", "w");
-//    for (int i = 0; i < length; i++) {
-//        fprintf(f, "%d", done[i]);
-//        if (i + 1 != length) { fprintf(f, ", "); }
-//    } fclose(f);
+    /* Remove 0s */
+    int zeroCount = 0;
+    for (int i = 0; i < count; i++) {
+        if (B[i] != 0) { D[i - zeroCount] = B[i]; }
+        else { zeroCount++; }
+    }
+
+    /* Print Array */
+    for (int i = 0; D[i] != 0; i++) { printf("%d, ", D[i]); }
+
+    /* Write Out */
+    FILE *f = fopen("q3.txt", "w");
+    for (int i = 0; D[i] != 0; i++) { fprintf(f, "%d, ", D[i]); }
+    fclose(f);
     
     /* Free Memory */
     cudaFree(A);
-    cudaFree(D);
+    cudaFree(B);
     
     return 0;
 }
